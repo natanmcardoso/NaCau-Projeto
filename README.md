@@ -132,6 +132,37 @@ middleware.ts         → Proteção de rotas via cookie
 | 5 | ⏳ Planejado | Metas e alertas |
 | 6 | ⏳ Planejado | Bot WhatsApp |
 
+---
+
+## Histórico de progresso
+
+### Fase 1 — Concluída (2025-05-12)
+
+**Autenticação e configuração inicial**
+
+- Setup do projeto Next.js 14 com App Router, TypeScript e Tailwind CSS
+- Identidade visual: tema dark, Fraunces + DM Sans, paleta de cores definida
+- Integração com Supabase via `@supabase/ssr` (publishable key)
+- Migrations SQL executadas: 6 tabelas criadas, RLS habilitado, permissões configuradas
+- Autenticação por senha única com sessão persistente via cookie
+- Middleware de proteção de rotas
+- Página `/login` funcional
+- Página `/configuracoes` com: cadastro de usuários, salários, VA, gastos fixos e troca de senha
+- Sidebar com navegação e logout
+- Repositório publicado no GitHub
+
+### Fase 2 — Em andamento
+
+**Transações e saldo em tempo real**
+
+- [ ] KPIs na home: renda total, saldo disponível, saldo VA, total de gastos fixos
+- [ ] Formulário de lançamento de transações (gasto / ganho / gasto VA)
+- [ ] Listagem de transações com filtros por usuário, tipo, categoria e período
+- [ ] Edição e exclusão de transações
+- [ ] Saldo atualizado em tempo real
+
+---
+
 ## Deploy na Vercel
 
 1. Conecte o repositório na Vercel
