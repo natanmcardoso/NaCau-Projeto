@@ -49,6 +49,19 @@ export async function GET() {
     0
   )
 
+  // Parcelamentos em andamento (parcelas_pagas < total_parcelas)
+  const { data: parcelamentos, error: parcError } = await supabase
+    .from('parcelamentos')
+    .select('valor_parcela, parcelas_pagas, total_parcelas')
+
+  if (parcError) {
+    return NextResponse.json({ error: parcError.message }, { status: 500 })
+  }
+
+  const totalParcelamentosMensal = (parcelamentos ?? [])
+    .filter((p) => p.parcelas_pagas < p.total_parcelas)
+    .reduce((sum, p) => sum + Number(p.valor_parcela), 0)
+
   // Transações do mês atual
   const { data: transacoes, error: txError } = await supabase
     .from('transacoes')
@@ -81,6 +94,7 @@ export async function GET() {
     saldoDisponivel,
     saldoVA,
     totalGastosFixos,
+    totalParcelamentosMensal,
     salario1,
     salario2,
     va1,

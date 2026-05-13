@@ -1,9 +1,11 @@
+import { ReactNode } from 'react'
+
 type Variant = 'default' | 'positive' | 'negative' | 'info'
 
 interface KPICardProps {
   label: string
   value: string
-  sublabel?: string
+  sublabel?: ReactNode
   variant?: Variant
 }
 

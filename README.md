@@ -14,6 +14,7 @@ O NaCau permite que dois usuários acompanhem juntos receitas, gastos, metas e p
 | Estilização | Tailwind CSS |
 | Backend | Next.js API Routes |
 | Banco de dados | Supabase (PostgreSQL) |
+| Gráficos | Recharts |
 | Hospedagem | Vercel |
 | Bot WhatsApp | Fase 6 (a implementar) |
 
@@ -71,17 +72,23 @@ Acesse [http://localhost:3000](http://localhost:3000).
 ```
 /app
   /login              → Tela de autenticação
-  /configuracoes      → Usuários, renda, gastos fixos e senha
-  /transacoes         → Lançamentos (Fase 2)
-  page.tsx            → Visão geral / KPIs (Fase 2)
-  layout.tsx          → Layout global
+  /configuracoes      → Usuários, renda e senha
+  /transacoes         → Lançamentos financeiros
+  /gastos-fixos       → Gastos recorrentes mensais
+  /parcelamentos      → Compras parceladas
+  /relatorio          → Dashboard visual e relatórios por período
+  page.tsx            → Visão geral / KPIs + gráficos
 
 /components
   Sidebar.tsx         → Navegação lateral com logout
   SetupForm.tsx       → Formulário completo de configurações
-  KPICard.tsx         → Cards de indicadores (Fase 2)
-  TransactionForm.tsx → Formulário de transações (Fase 2)
-  TransactionList.tsx → Listagem de transações (Fase 2)
+  KPICard.tsx         → Cards de indicadores
+  TransactionForm.tsx → Formulário de transações
+  TransactionList.tsx → Listagem de transações com filtros
+  ParcelamentoForm.tsx → Formulário de parcelamentos
+  ParcelamentoList.tsx → Listagem com progresso por parcela
+  GraficoCategoria.tsx → Gráfico donut: gastos por categoria
+  GraficoEvolucao.tsx  → Gráfico de linha: evolução mensal
 
 /lib
   supabase.ts         → Cliente Supabase + tipos TypeScript
@@ -91,7 +98,6 @@ Acesse [http://localhost:3000](http://localhost:3000).
 /utils/supabase
   client.ts           → Browser client (@supabase/ssr)
   server.ts           → Server Component client
-  middleware.ts       → Refresh de sessão
 
 /supabase/migrations
   001_init.sql        → Schema completo (6 tabelas + índices + seed)
@@ -126,9 +132,9 @@ middleware.ts         → Proteção de rotas via cookie
 | Fase | Status | Descrição |
 |---|---|---|
 | 1 | ✅ Concluída | Autenticação, configurações, banco de dados |
-| 2 | 🔄 Em andamento | Transações e saldo em tempo real |
-| 3 | ⏳ Planejado | Gastos fixos automáticos e parcelamentos |
-| 4 | ⏳ Planejado | Dashboard visual e relatórios |
+| 2 | ✅ Concluída | Transações e saldo em tempo real |
+| 3 | ✅ Concluída | Gastos fixos automáticos e parcelamentos |
+| 4 | ✅ Concluída | Dashboard visual e relatórios |
 | 5 | ⏳ Planejado | Metas e alertas |
 | 6 | ⏳ Planejado | Bot WhatsApp |
 
@@ -136,30 +142,30 @@ middleware.ts         → Proteção de rotas via cookie
 
 ## Histórico de progresso
 
-### Fase 1 — Concluída (2025-05-12)
-
-**Autenticação e configuração inicial**
-
+### Fase 1 — Concluída
 - Setup do projeto Next.js 14 com App Router, TypeScript e Tailwind CSS
 - Identidade visual: tema dark, Fraunces + DM Sans, paleta de cores definida
 - Integração com Supabase via `@supabase/ssr` (publishable key)
-- Migrations SQL executadas: 6 tabelas criadas, RLS habilitado, permissões configuradas
+- Migrations SQL: 6 tabelas criadas, RLS habilitado, permissões configuradas
 - Autenticação por senha única com sessão persistente via cookie
-- Middleware de proteção de rotas
-- Página `/login` funcional
-- Página `/configuracoes` com: cadastro de usuários, salários, VA, gastos fixos e troca de senha
-- Sidebar com navegação e logout
-- Repositório publicado no GitHub
+- Middleware de proteção de rotas, página `/login`, página `/configuracoes`
 
-### Fase 2 — Em andamento
+### Fase 2 — Concluída
+- KPIs na home: renda total, saldo disponível, saldo VA, total de gastos fixos
+- Formulário de lançamento de transações (gasto / ganho / gasto VA)
+- Listagem com filtros por usuário, tipo, categoria e período
+- Edição e exclusão de transações; saldo atualizado em tempo real
 
-**Transações e saldo em tempo real**
+### Fase 3 — Concluída
+- Gastos fixos: listagem, cadastro, edição, remoção e lançamento automático idempotente
+- Parcelamentos: cadastro com preview de valor por parcela, barra de progresso, marcar parcela paga
 
-- [ ] KPIs na home: renda total, saldo disponível, saldo VA, total de gastos fixos
-- [ ] Formulário de lançamento de transações (gasto / ganho / gasto VA)
-- [ ] Listagem de transações com filtros por usuário, tipo, categoria e período
-- [ ] Edição e exclusão de transações
-- [ ] Saldo atualizado em tempo real
+### Fase 4 — Concluída
+- Gráfico donut (Recharts): gastos por categoria no mês atual
+- Indicador de comprometimento do salário: fixos + parcelamentos vs renda (barra colorida)
+- Comparativo automático com mês anterior (variação % de saídas)
+- Página `/relatorio`: filtro por mês/ano, KPIs com delta %, gráfico pizza + linha, tabela de categorias
+- API `GET /api/relatorio?mes=YYYY-MM` com evolução dos últimos 6 meses
 
 ---
 
