@@ -62,6 +62,21 @@ export async function GET() {
     .filter((p) => p.parcelas_pagas < p.total_parcelas)
     .reduce((sum, p) => sum + Number(p.valor_parcela), 0)
 
+  // Metas ativas — valor_atual descontado do saldo disponível
+  const { data: metas, error: metasError } = await supabase
+    .from('metas')
+    .select('valor_atual')
+    .eq('ativo', true)
+
+  if (metasError) {
+    return NextResponse.json({ error: metasError.message }, { status: 500 })
+  }
+
+  const totalMetasAtivas = (metas ?? []).reduce(
+    (sum, m) => sum + Number(m.valor_atual),
+    0
+  )
+
   // Transações do mês atual
   const { data: transacoes, error: txError } = await supabase
     .from('transacoes')
@@ -86,7 +101,7 @@ export async function GET() {
 
   const rendaTotal = salario1 + salario2 + va1 + va2
   const saldoDisponivel =
-    salario1 + salario2 - totalGastosFixos - gastosDoMes + ganhosDoMes
+    salario1 + salario2 - totalGastosFixos - gastosDoMes + ganhosDoMes - totalMetasAtivas
   const saldoVA = va1 + va2 - gastosVADoMes
 
   return NextResponse.json({
@@ -95,6 +110,7 @@ export async function GET() {
     saldoVA,
     totalGastosFixos,
     totalParcelamentosMensal,
+    totalMetasAtivas,
     salario1,
     salario2,
     va1,

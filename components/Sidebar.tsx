@@ -50,6 +50,15 @@ const nav = [
     ),
   },
   {
+    href: '/metas',
+    label: 'Metas',
+    icon: (
+      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6H11l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
+      </svg>
+    ),
+  },
+  {
     href: '/configuracoes',
     label: 'Configurações',
     icon: (

@@ -77,16 +77,19 @@ Acesse [http://localhost:3000](http://localhost:3000).
   /gastos-fixos       → Gastos recorrentes mensais
   /parcelamentos      → Compras parceladas
   /relatorio          → Dashboard visual e relatórios por período
+  /metas              → Metas financeiras com alertas de progresso
   page.tsx            → Visão geral / KPIs + gráficos
 
 /components
-  Sidebar.tsx         → Navegação lateral com logout
-  SetupForm.tsx       → Formulário completo de configurações
-  KPICard.tsx         → Cards de indicadores
-  TransactionForm.tsx → Formulário de transações
-  TransactionList.tsx → Listagem de transações com filtros
+  Sidebar.tsx          → Navegação lateral com logout
+  SetupForm.tsx        → Formulário completo de configurações
+  KPICard.tsx          → Cards de indicadores
+  TransactionForm.tsx  → Formulário de transações
+  TransactionList.tsx  → Listagem de transações com filtros
   ParcelamentoForm.tsx → Formulário de parcelamentos
   ParcelamentoList.tsx → Listagem com progresso por parcela
+  MetaForm.tsx         → Formulário de criação/edição de metas
+  MetaList.tsx         → Listagem de metas com barras de progresso e alertas
   GraficoCategoria.tsx → Gráfico donut: gastos por categoria
   GraficoEvolucao.tsx  → Gráfico de linha: evolução mensal
 
@@ -135,7 +138,7 @@ middleware.ts         → Proteção de rotas via cookie
 | 2 | ✅ Concluída | Transações e saldo em tempo real |
 | 3 | ✅ Concluída | Gastos fixos automáticos e parcelamentos |
 | 4 | ✅ Concluída | Dashboard visual e relatórios |
-| 5 | ⏳ Planejado | Metas e alertas |
+| 5 | ✅ Concluída | Metas e alertas |
 | 6 | ⏳ Planejado | Bot WhatsApp |
 
 ---
@@ -166,6 +169,16 @@ middleware.ts         → Proteção de rotas via cookie
 - Comparativo automático com mês anterior (variação % de saídas)
 - Página `/relatorio`: filtro por mês/ano, KPIs com delta %, gráfico pizza + linha, tabela de categorias
 - API `GET /api/relatorio?mes=YYYY-MM` com evolução dos últimos 6 meses
+
+### Fase 5 — Concluída
+- Página `/metas`: listagem com barra de progresso geral e filtro ativas/todas
+- `MetaForm.tsx`: modal de criação/edição (nome, valor total, valor guardado, prazo) com preview de valor mensal necessário
+- `MetaList.tsx`: card por meta com barra de progresso colorida, alertas visuais (abaixo do ritmo, próximo do vencimento, vencida, concluída) e botão "Adicionar valor"
+- Modal "Adicionar valor": incrementa `valor_atual` sem ultrapassar `valor_total`
+- APIs: `GET /api/metas` (ativas ou todas), `POST /api/metas`, `PUT /api/metas/[id]` (edição ou `action: adicionar_valor`), `DELETE /api/metas/[id]` (soft delete)
+- `/api/saldo` atualizado: desconta soma de `valor_atual` das metas ativas do saldo disponível
+- Home atualizada: exibe linha "Guardado em metas" no resumo e link "Ver metas"
+- Sidebar atualizada com link para Metas
 
 ---
 

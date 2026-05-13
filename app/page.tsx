@@ -12,6 +12,7 @@ interface Saldo {
   saldoVA: number
   totalGastosFixos: number
   totalParcelamentosMensal: number
+  totalMetasAtivas: number
   salario1: number
   salario2: number
   va1: number
@@ -219,6 +220,14 @@ export default function HomePage() {
                         − {formatMoeda(saldo.gastosVADoMes)}
                       </span>
                     </div>
+                    {saldo.totalMetasAtivas > 0 && (
+                      <div className="flex justify-between text-sm">
+                        <span className="text-muted">Guardado em metas</span>
+                        <span className="text-yellow-400 font-display">
+                          − {formatMoeda(saldo.totalMetasAtivas)}
+                        </span>
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -254,25 +263,14 @@ export default function HomePage() {
                 </div>
               </div>
 
-              <div className="mt-4 flex gap-4">
+              <div className="mt-4 flex gap-4 flex-wrap">
                 <a
                   href="/transacoes"
                   className="inline-flex items-center gap-2 text-sm text-muted hover:text-lime transition-colors"
                 >
                   Ver todas as transações
-                  <svg
-                    width="14"
-                    height="14"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M9 5l7 7-7 7"
-                    />
+                  <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                   </svg>
                 </a>
                 <a
@@ -280,19 +278,17 @@ export default function HomePage() {
                   className="inline-flex items-center gap-2 text-sm text-muted hover:text-lime transition-colors"
                 >
                   Ver relatório completo
-                  <svg
-                    width="14"
-                    height="14"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M9 5l7 7-7 7"
-                    />
+                  <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                  </svg>
+                </a>
+                <a
+                  href="/metas"
+                  className="inline-flex items-center gap-2 text-sm text-muted hover:text-lime transition-colors"
+                >
+                  Ver metas
+                  <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                   </svg>
                 </a>
               </div>
